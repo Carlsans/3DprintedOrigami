@@ -28,7 +28,7 @@ module triangulargrid(creasethickness, creasewidth, dimensions, steps) {
       middlepoint = dimensions[1] / 2;
       diagonallenght = middlepoint / sin(30);
       halfdistance = (dimensions[0] / 2) * (sin(30) / sin(60));
-      echo(halfdistance);
+      //echo(halfdistance);
       for(step = [0:steps]) {
         //pow(2,step)-1]
         for(lines = [-(pow(2, step) - 1):pow(2, step) - 1]) {
@@ -38,7 +38,7 @@ module triangulargrid(creasethickness, creasewidth, dimensions, steps) {
                 rotate([0, 0, 30 * sign])
                   cube([diagonallenght, creasewidth, creasethickness]);
               translate([dimensions[0], middlepoint - creasewidth / 2, 0])
-                rotate([0, 180, 30 * sign])
+                translate([0,0,creasethickness])rotate([0, 180, 30 * sign])
                   cube([diagonallenght, creasewidth, creasethickness]);
             }
         }
@@ -50,4 +50,8 @@ module triangulargrid(creasethickness, creasewidth, dimensions, steps) {
 
 
 }
-triangulargrid(0.2, 0.5, [100, 100], 3);
+
+
+function trianglegridunitside(dimensionx,steps) = (dimensionx/pow(2,steps+1)* (sin(90) / sin(60)));// /pow(2,steps+1);
+//echo(trianglegridunitside(100,1));
+//triangulargrid(1, 0.5, [100, 100], 1);
