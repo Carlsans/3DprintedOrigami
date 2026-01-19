@@ -17,10 +17,17 @@ module squaregrid(creasethickness, creasewidth, dimensions, separations,singlecr
 }
 //squaregrid(0.2,0.5,[100,80],[10,8],singlecrease = false);
 // Create a triangle grid. dimensions is a bidimensionnal vector and steps a scalar
-module triangulargrid(creasethickness, creasewidth, dimensions, steps,singlecrease = false) {
+module triangulargrid(creasethickness, creasewidth, dimensions, steps,singlecrease = false,intersectionned = true) {
   intersection() {
-    translate([0, 0, -5000])
+       if(intersectionned){
+           translate([0, 0, -5000])
       cube([dimensions[0], dimensions[1], 10000]);
+           }else{
+               
+              translate([-50000/2, -50000/2, -50000/2])
+                    cube([100000, 100000, 100000]); 
+               }
+      
 
       union() {
       separations = pow(2, steps);
@@ -33,7 +40,7 @@ module triangulargrid(creasethickness, creasewidth, dimensions, steps,singlecrea
           }
       
       middlepoint = dimensions[1] / 2;
-      diagonallenght = middlepoint / sin(30);
+      diagonallenght = middlepoint / sin(30)+10000;
       halfdistance = (dimensions[0] / 2) * (sin(30) / sin(60));
       //echo(halfdistance);
       for(step = [0:steps]) {
@@ -45,10 +52,10 @@ module triangulargrid(creasethickness, creasewidth, dimensions, steps,singlecrea
                 if(!singlecrease || sign == -1){
                     translate([0, middlepoint - creasewidth / 2, 0])
                 rotate([0, 0, 30 * sign])
-                  cube([diagonallenght, creasewidth, creasethickness]);
+                  translate([-5000,0,0])cube([diagonallenght, creasewidth, creasethickness]);
               translate([dimensions[0], middlepoint - creasewidth / 2, 0])
                 translate([0,0,creasethickness])rotate([0, 180, 30 * sign])
-                  cube([diagonallenght, creasewidth, creasethickness]);
+                  translate([-5000,0,0])cube([diagonallenght, creasewidth, creasethickness]);
                     }
               
             }
@@ -65,4 +72,4 @@ module triangulargrid(creasethickness, creasewidth, dimensions, steps,singlecrea
 
 function trianglegridunitside(dimensionx,steps) = (dimensionx/pow(2,steps+1)* (sin(90) / sin(60)));// /pow(2,steps+1);
 //echo(trianglegridunitside(100,1));
-//triangulargrid(1, 0.5, [100, 100], 1,singlecrease = false);
+//triangulargrid(1, 0.5, [100, 100], 1,singlecrease = false,intersectionned=true);
