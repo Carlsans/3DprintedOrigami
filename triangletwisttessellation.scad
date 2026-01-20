@@ -11,13 +11,17 @@ honeycombgeneration = (pow(2,steps)/2) -1; // Will work for steps <= 3
 module triangletwisttessellation(){
     difference(){
         cube([sheetwidth,sheetwidth,sheetthickness]);
-        translate([0,0,creasethickness])triangulargrid(creasethickness+1, creasewidth, [sheetwidth, sheetwidth], steps);
-        for(i =[-honeycombgeneration:honeycombgeneration]){
+        translate([0,0,creasethickness])union()
+        {
+            triangulargrid(creasethickness+1, creasewidth, [sheetwidth, sheetwidth], steps);
+            for(i =[-honeycombgeneration:honeycombgeneration]){
             for(j = [-honeycombgeneration:honeycombgeneration]){
-                translate([sheetwidth/2+i*triangleheight*3+j*triangleheight*6,sheetwidth/2+i*triangleside*1.5,creasethickness])honeycomb();
+                translate([sheetwidth/2+i*triangleheight*3+j*triangleheight*6,sheetwidth/2+i*triangleside*1.5,0])honeycomb();
                 }
-            
             }
+            }
+
+        
         
         //hexagontriangles = [[0,triangleside*2,90],[0,-triangleside*2,0],[triangleheight*2,triangleside,-30],[triangleheight*2,-triangleside,0],[-triangleheight*2,triangleside,60],[-triangleheight*2,-triangleside,0]];
         /*hexagontriangles = [[triangleheight,triangleside*1.5,30],[triangleheight*2,0,90],[triangleheight,-triangleside*1.5,30],[-triangleheight,-triangleside*1.5,90],[-triangleheight*2,0,30],[-triangleheight*1,triangleside*1.5,90]];
@@ -29,7 +33,7 @@ module triangletwisttessellation(){
 module honeycomb(){
     hexagontriangles = [[triangleheight,triangleside*1.5,30],[triangleheight*2,0,90],[triangleheight,-triangleside*1.5,30],[-triangleheight,-triangleside*1.5,90],[-triangleheight*2,0,30],[-triangleheight*1,triangleside*1.5,90]];
         for (i = hexagontriangles){
-            translate([i[0],i[1],creasethickness])rotate([0,0,i[2]])othertriangle();
+            translate([i[0],i[1],0])rotate([0,0,i[2]])othertriangle();
             }    
     }
 module triangle(){

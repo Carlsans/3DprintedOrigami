@@ -9,6 +9,8 @@ sidethickness = 1.2;
 
 creasedepth = 0.9;
 creastwidth = 0.8;
+creastwidthguide = 1.2;
+
 totalwidth = sheetwidth +sidewidth*2;
 module base(){
     translate([-sidewidth,-sidewidth,0])difference(){
@@ -22,18 +24,18 @@ module triangular_grid(){
     difference(){
         base();
     translate([0,0,basethickness-creasedepth])triangulargrid(creasedepth+1, creastwidth, [sheetwidth, sheetwidth], steps,singlecrease = true); 
-        translate([0,0,basethickness+sidethickness-creasedepth+.1]) triangulargrid(creasedepth+100, creastwidth, [sheetwidth, sheetwidth], steps,singlecrease = true,intersectionned = false); 
+        translate([0,0,basethickness]) triangulargrid(creasedepth+100, creastwidthguide, [sheetwidth, sheetwidth], steps,singlecrease = true,intersectionned = false); 
         }
    
     }
-triangular_grid();
+//triangular_grid();
 module square_grid(){
      difference(){
         base();
     translate([0,0,basethickness-creasedepth]) squaregrid(creasedepth+1, creastwidth,[sheetwidth,sheetwidth],[pow(2,steps+1),pow(2,steps+1)],singlecrease = true);
-         translate([0,-sheetwidth/2,basethickness+sidethickness-creasedepth]) scale([1,2,1])squaregrid(creasedepth+1, creastwidth,[sheetwidth,sheetwidth],[pow(2,steps+1),pow(2,steps+1)],singlecrease = true);
+         translate([0,-sheetwidth/2,basethickness]) scale([1,2,1])squaregrid(creasedepth+1, creastwidthguide,[sheetwidth,sheetwidth],[pow(2,steps+1),pow(2,steps+1)],singlecrease = true);
         }
     
     }
   
-//square_grid();
+square_grid();
